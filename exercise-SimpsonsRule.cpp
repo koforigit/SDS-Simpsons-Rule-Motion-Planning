@@ -2,6 +2,9 @@
  * Self-Driving Car Nano-degree - Udacity
  *  Created on: October 20, 2020
  *      Author: Munir Jojo-Verge
+ *  Revised v2.0 on: Oct. 25 2026
+ *  Revised v2.1 on: Oct. 26 2026 (minor corrections)
+ *      Author: Kwame Ofori
  **********************************************/
 
 /*
@@ -16,7 +19,7 @@ The only things you need are:
     2) Simpson's Rule equation:
     f(x) = dx / 3.0 * (f(x0) + 4.0 * f(x1) + 2.0 * f(x2) + 4.0 * f(x3) + 2.0 *
     f(x4) + ... + func[n]);
-    dx = b-a/n = sf/n
+    dx = (b-a)/n = sf/n
     xi = a + i*dx = i*dx
 Follow the "TODO"s to complete this exercise
 */
@@ -29,7 +32,11 @@ Follow the "TODO"s to complete this exercise
 double calc_theta(const double s, const std::array<double, 4>& a) {
   // TODO - What is Theta(s)?
   // theta(s) = a3*s^4/4 + a2*s^3/3 + a1*s^2/2 + a0*s
-  return ...;  // FIX THIS
+  
+  double theta;
+  theta = a[3]*pow(s,4)/4.0 + a[2]*pow(s,3)/3.0 + a[1]*pow(s,2)/2.0+a[0]*s;
+
+  return theta;  // FIX THIS
 }
 
 double IntegrateBySimpson(const std::vector<double>& func, const double dx,
@@ -52,7 +59,8 @@ double IntegrateBySimpson(const std::vector<double>& func, const double dx,
   // delta_x/3*(f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + 2f(x4) + ... + 4f(xn-1) +
   // f(xn))
   //
-  double result = ...;
+  
+  double result = dx/3.0*(func[0] + 4.0*sum_odd + 2.0*sum_even + func[n]);
 
   return result;  // FIX THIS
 }
@@ -65,10 +73,10 @@ std::vector<double> generate_f_s0_sn(const double delta_s,
     // TODO - What is s_i (or x_i on Simpsons Rule equation)
     // f(x) = dx / 3.0 * (f(x0) + 4.0 * f(x1) + 2.0 * f(x2) + 4.0 * f(x3) + 2.0
     // * f(x4) + ... + func[n]);
-    // dx = sf/n;
-    // xi = i*dx;
+    // dx = (sf-0)/n;
+    // xi = 0+i*dx;
     // HINT: s_i = i * delta_s;
-    double s_i = ...;  // FIX THIS
+    double s_i = i * delta_s;  // FIX THIS
 
     double theta_i = calc_theta(s_i, a);
     f_s[i] = std::cos(theta_i);
@@ -79,7 +87,7 @@ std::vector<double> generate_f_s0_sn(const double delta_s,
 // ******* MAIN FUNCTION ********
 int main(int argc, const char* argv[]) {
   //
-  double sg = 10.0;  // lenght of the spiral
+  double sg = 10.0;  // length of the spiral
   size_t n = 9;      // We'll use a n=9 Simpson's Rule
   double delta_s = sg / n;
 
@@ -95,7 +103,7 @@ int main(int argc, const char* argv[]) {
   double expected = 2.3391428316;
   std::cout << (fabs(expected - integral_result) < 0.00001 ? "PASS" : "FAIL")
             << std::endl;
-  // std::cout << "Result: " << integral_result << std::endl;
+  std::cout << "Result: " << integral_result << std::endl;
 
   return 0;
 }
